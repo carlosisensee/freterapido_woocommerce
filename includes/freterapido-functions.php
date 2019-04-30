@@ -272,7 +272,7 @@ function fr_install() {
 			'code' => 2,
 		],
 		[
-			'name' => 'Alimentos',
+			'name' => 'Alimentos perecíveis',
 			'code' => 3,
 		],
 		[
@@ -312,7 +312,7 @@ function fr_install() {
 			'code' => 12,
 		],
 		[
-			'name' => 'Cosméticos / Perfumaria',
+			'name' => 'Cosméticos',
 			'code' => 13,
 		],
 		[
@@ -348,7 +348,7 @@ function fr_install() {
 			'code' => 21,
 		],
 		[
-			'name' => 'Farmacêutico / Medicamentos',
+			'name' => 'Medicamentos',
 			'code' => 22,
 		],
 		[
@@ -432,7 +432,7 @@ function fr_install() {
 			'code' => 42,
 		],
 		[
-			'name' => 'Material Pet Shop / Rações',
+			'name' => 'Material Pet Shop',
 			'code' => 43,
 		],
 		[
@@ -554,6 +554,42 @@ function fr_install() {
 		[
 			'name' => 'Acessórios de Arquearia',
 			'code' => 73,
+		],
+		[
+			'name' => 'Alimentos não perecíveis',
+			'code' => 74,
+		],
+		[
+			'name' => 'Caixa de embalagem',
+			'code' => 75,
+		],
+		[
+			'name' => 'TV / Monitores',
+			'code' => 76,
+		],
+		[
+			'name' => 'Linha Branca',
+			'code' => 77,
+		],
+		[
+			'name' => 'Vitaminas / Suplementos nutricionais',
+			'code' => 78,
+		],
+		[
+			'name' => 'Malas / Mochilas',
+			'code' => 79,
+		],
+		[
+			'name' => 'Máquina / Equipamentos',
+			'code' => 80,
+		],
+		[
+			'name' => 'Rações / Alimento para Animal',
+			'code' => 81,
+		],
+		[
+			'name' => 'Artigos para Camping',
+			'code' => 82,
 		],
 		[
 			'name' => 'Outros',
