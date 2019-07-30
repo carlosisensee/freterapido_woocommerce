@@ -192,7 +192,16 @@ if (!class_exists('WC_Freterapido_Main')) :
 	{
 		global $fr_db_version;
 
-		fr_category_init();
+		// create a new taxonomy
+		register_taxonomy(
+			'fr_category',
+			'product',
+			array(
+				'label'        => __('FR Category'),
+				'hierarchical' => false,
+				'show_ui'      => false,
+			)
+		);
 
 		$fr_categories = [
 			[
