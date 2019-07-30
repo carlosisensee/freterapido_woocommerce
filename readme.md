@@ -4,7 +4,7 @@
 
 ### Módulo para plataforma WooCommerce
 
-Versão do módulo: 1.0.4
+Versão do módulo: 1.0.5
 
 Versão mínima de utilização do PHP: **5.4**
 
