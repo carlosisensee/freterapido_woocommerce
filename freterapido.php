@@ -317,7 +317,7 @@ if (!class_exists('WC_Freterapido_Main')) :
 				'code' => 28,
 			],
 			[
-				'name' => 'Higiene / Limpeza',
+				'name' => 'Higiene',
 				'code' => 29,
 			],
 			[
@@ -413,7 +413,7 @@ if (!class_exists('WC_Freterapido_Main')) :
 				'code' => 52,
 			],
 			[
-				'name' => 'Produtos Químicos',
+				'name' => 'Produto Químico Não Classificado',
 				'code' => 53,
 			],
 			[
@@ -531,6 +531,30 @@ if (!class_exists('WC_Freterapido_Main')) :
 			[
 				'name' => 'Artigos para Camping',
 				'code' => 82,
+			],
+			[
+				'name' => 'Pilhas / Baterias',
+				'code' => 83,
+			],
+			[
+				'name' => 'Estiletes / Materiais cortantes',
+				'code' => 84,
+			],
+			[
+				'name' => 'Produto Químico Classificado',
+				'code' => 85,
+			],
+			[
+				'name' => 'Limpeza',
+				'code' => 86,
+			],
+			[
+				'name' => 'Extintores',
+				'code' => 87,
+			],
+			[
+				'name' => 'Equipamentos de segurança / EPI',
+				'code' => 88,
 			],
 			[
 				'name' => 'Outros',
