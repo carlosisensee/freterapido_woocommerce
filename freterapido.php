@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Plugin Name: WooCommerce Frete Rápido
  * Plugin URI: https://github.com/...
@@ -11,21 +12,22 @@
  * Domain Path: languages/
  */
 
-define( 'WOO_FR_PATH', plugin_dir_path( __FILE__ ) );
-define( 'FR_API_URL', 'https://freterapido.com/api/external/' );
+define('WOO_FR_PATH', plugin_dir_path(__FILE__));
+define('FR_API_URL', 'https://freterapido.com/api/external/');
 //define( 'FR_API_URL', 'https://freterapido.com/sandbox/api/external/embarcador/v1/' );
 
 
-if ( ! defined( 'ABSPATH' ) ) {
+if (!defined('ABSPATH')) {
 	exit; // Exit if accessed directly.
 }
 
-if ( ! class_exists( 'WC_Freterapido_Main' ) ) :
+if (!class_exists('WC_Freterapido_Main')) :
 
 	/**
 	 * Frete Rápido main class.
 	 */
-	class WC_Freterapido_Main {
+	class WC_Freterapido_Main
+	{
 		/**
 		 * Plugin version.
 		 *
@@ -49,24 +51,25 @@ if ( ! class_exists( 'WC_Freterapido_Main' ) ) :
 		/**
 		 * Initialize the plugin
 		 */
-		private function __construct() {
+		private function __construct()
+		{
 
-			if ( !class_exists( 'Extra_Checkout_Fields_For_Brazil' ) ) {
+			if (!class_exists('Extra_Checkout_Fields_For_Brazil')) {
 				$this->array_plugins[] = 'WooCommerce Extra Checkout Fields for Brazil';
 			}
 
-			if ( !class_exists( 'WooCommerce' ) ) {
+			if (!class_exists('WooCommerce')) {
 				$this->array_plugins[] = 'WooCommerce';
 			}
 
-			if( empty( $this->array_plugins ) ) {
+			if (empty($this->array_plugins)) {
 
-				add_action( 'init', array( $this, 'load_plugin_textdomain' ), -1 );
-				add_action( 'wp_ajax_ajax_simulator', array( 'WC_Freterapido_Shipping_Simulator', 'ajax_simulator' ) );
-				add_action( 'wp_ajax_nopriv_ajax_simulator', array( 'WC_Freterapido_Shipping_Simulator', 'ajax_simulator' ) );
+				add_action('init', array($this, 'load_plugin_textdomain'), -1);
+				add_action('wp_ajax_ajax_simulator', array('WC_Freterapido_Shipping_Simulator', 'ajax_simulator'));
+				add_action('wp_ajax_nopriv_ajax_simulator', array('WC_Freterapido_Shipping_Simulator', 'ajax_simulator'));
 
 				// Checks with WooCommerce is installed.
-				if ( class_exists( 'WC_Integration' ) ) {
+				if (class_exists('WC_Integration')) {
 					include_once WOO_FR_PATH . 'includes/class-wc-freterapido.php';
 					include_once WOO_FR_PATH . 'includes/class-wc-freterapido-orders.php';
 					include_once WOO_FR_PATH . 'includes/class-wc-freterapido-http.php';
@@ -74,21 +77,20 @@ if ( ! class_exists( 'WC_Freterapido_Main' ) ) :
 					include_once WOO_FR_PATH . 'includes/class-wc-freterapido-shipping.php';
 					include_once WOO_FR_PATH . 'includes/class-wc-freterapido-hire-shipping.php';
 
-					add_filter( 'woocommerce_shipping_methods', array( $this, 'wcfreterapido_add_method' ) );
+					add_filter('woocommerce_shipping_methods', array($this, 'wcfreterapido_add_method'));
 
-					add_action( 'admin_enqueue_scripts', array( $this, 'wcfreterapido_rapido_awaiting_shipment_admin_style' ) );
+					add_action('admin_enqueue_scripts', array($this, 'wcfreterapido_rapido_awaiting_shipment_admin_style'));
 
 					include_once 'includes/freterapido-functions.php';
-
 				} else {
-					add_action( 'admin_notices', array( $this, 'wcfreterapido_woocommerce_fallback_notice' ) );
+					add_action('admin_notices', array($this, 'wcfreterapido_woocommerce_fallback_notice'));
 				}
 
-				if ( ! class_exists( 'SimpleXmlElement' ) ) {
-					add_action( 'admin_notices', 'wcfreterapido_extensions_missing_notice' );
+				if (!class_exists('SimpleXmlElement')) {
+					add_action('admin_notices', 'wcfreterapido_extensions_missing_notice');
 				}
 			} else {
-				add_action( 'admin_notices', array( $this, 'wcfreterapido_fallback_notice' ) );
+				add_action('admin_notices', array($this, 'wcfreterapido_fallback_notice'));
 			}
 		}
 
@@ -97,9 +99,10 @@ if ( ! class_exists( 'WC_Freterapido_Main' ) ) :
 		 *
 		 * @return object A single instance of this class.
 		 */
-		public static function get_instance() {
+		public static function get_instance()
+		{
 			// If the single instance hasn't been set, set it now.
-			if ( null === self::$instance ) {
+			if (null === self::$instance) {
 				self::$instance = new self;
 			}
 
@@ -109,8 +112,9 @@ if ( ! class_exists( 'WC_Freterapido_Main' ) ) :
 		/**
 		 * Load the plugin text domain for translation.
 		 */
-		public function load_plugin_textdomain() {
-			load_plugin_textdomain( 'freterapido', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
+		public function load_plugin_textdomain()
+		{
+			load_plugin_textdomain('freterapido', false, dirname(plugin_basename(__FILE__)) . '/languages/');
 		}
 
 		/**
@@ -118,7 +122,8 @@ if ( ! class_exists( 'WC_Freterapido_Main' ) ) :
 		 *
 		 * @return string
 		 */
-		public static function get_main_file() {
+		public static function get_main_file()
+		{
 			return __FILE__;
 		}
 
@@ -127,8 +132,9 @@ if ( ! class_exists( 'WC_Freterapido_Main' ) ) :
 		 *
 		 * @return string
 		 */
-		public static function get_plugin_path() {
-			return plugin_dir_path( __FILE__ );
+		public static function get_plugin_path()
+		{
+			return plugin_dir_path(__FILE__);
 		}
 
 		/**
@@ -136,7 +142,8 @@ if ( ! class_exists( 'WC_Freterapido_Main' ) ) :
 		 *
 		 * @return string
 		 */
-		public static function get_templates_path() {
+		public static function get_templates_path()
+		{
 			return self::get_plugin_path() . 'templates/';
 		}
 
@@ -147,7 +154,8 @@ if ( ! class_exists( 'WC_Freterapido_Main' ) ) :
 		 *
 		 * @return array
 		 */
-		function wcfreterapido_add_method( $methods ) {
+		function wcfreterapido_add_method($methods)
+		{
 			$methods['freterapido'] = 'WC_Freterapido';
 
 			return $methods;
@@ -157,26 +165,412 @@ if ( ! class_exists( 'WC_Freterapido_Main' ) ) :
 		 * Add the admin style to show the awayiting shipment icon on edit page
 		 * @param string $hook current page
 		 */
-		public function wcfreterapido_rapido_awaiting_shipment_admin_style( $hook ) {
-			if ( 'edit.php' != $hook ) {
+		public function wcfreterapido_rapido_awaiting_shipment_admin_style($hook)
+		{
+			if ('edit.php' != $hook) {
 				return;
 			}
-			wp_enqueue_style( 'shipment_admin_style', plugins_url( 'includes/css/shipment_admin_style.css', __FILE__ ) );
+			wp_enqueue_style('shipment_admin_style', plugins_url('includes/css/shipment_admin_style.css', __FILE__));
 		}
 
-		public function wcfreterapido_fallback_notice(){
+		public function wcfreterapido_fallback_notice()
+		{
 			echo '<div class="error"><p>';
-			echo '<strong>' . __( 'Frete Rápido needs the following(s) plugin(s) to work:', 'freterapido' ) . '</strong>';
+			echo '<strong>' . __('Frete Rápido needs the following(s) plugin(s) to work:', 'freterapido') . '</strong>';
 			echo '<ul>';
-			foreach ( $this->array_plugins as $plugin ) {
+			foreach ($this->array_plugins as $plugin) {
 				echo '<li>' . $plugin . '<li>';
 			}
 			echo '<ul></p></div>';
 		}
-
-
 	}
 
-add_action( 'plugins_loaded', array( 'WC_Freterapido_Main', 'get_instance' ) );
+	global $fr_db_version;
+	$fr_db_version = '1.0';
+
+	function fr_install()
+	{
+		global $fr_db_version;
+
+		// create a new taxonomy
+		register_taxonomy(
+			'fr_category',
+			'product',
+			array(
+				'label'        => __('FR Category'),
+				'hierarchical' => false,
+				'show_ui'      => false,
+			)
+		);
+
+		$fr_categories = [
+			[
+				'name' => 'Abrasivos',
+				'code' => 1,
+			],
+			[
+				'name' => 'Adubos / Fertilizantes',
+				'code' => 2,
+			],
+			[
+				'name' => 'Alimentos perecíveis',
+				'code' => 3,
+			],
+			[
+				'name' => 'Artigos para Pesca',
+				'code' => 4,
+			],
+			[
+				'name' => 'Auto Peças',
+				'code' => 5,
+			],
+			[
+				'name' => 'Bebidas / Destilados',
+				'code' => 6,
+			],
+			[
+				'name' => 'Brindes',
+				'code' => 7,
+			],
+			[
+				'name' => 'Brinquedos',
+				'code' => 8,
+			],
+			[
+				'name' => 'Calçados',
+				'code' => 9,
+			],
+			[
+				'name' => 'CD / DVD / Blu-Ray',
+				'code' => 10,
+			],
+			[
+				'name' => 'Combustíveis / Óleos',
+				'code' => 11,
+			],
+			[
+				'name' => 'Confecção',
+				'code' => 12,
+			],
+			[
+				'name' => 'Cosméticos',
+				'code' => 13,
+			],
+			[
+				'name' => 'Couro',
+				'code' => 14,
+			],
+			[
+				'name' => 'Derivados Petróleo',
+				'code' => 15,
+			],
+			[
+				'name' => 'Descartáveis',
+				'code' => 16,
+			],
+			[
+				'name' => 'Editorial',
+				'code' => 17,
+			],
+			[
+				'name' => 'Eletrônicos',
+				'code' => 18,
+			],
+			[
+				'name' => 'Eletrodomésticos',
+				'code' => 19,
+			],
+			[
+				'name' => 'Embalagens',
+				'code' => 20,
+			],
+			[
+				'name' => 'Explosivos / Pirotécnicos',
+				'code' => 21,
+			],
+			[
+				'name' => 'Medicamentos',
+				'code' => 22,
+			],
+			[
+				'name' => 'Ferragens',
+				'code' => 23,
+			],
+			[
+				'name' => 'Ferramentas',
+				'code' => 24,
+			],
+			[
+				'name' => 'Fibras Ópticas',
+				'code' => 25,
+			],
+			[
+				'name' => 'Fonográfico',
+				'code' => 26,
+			],
+			[
+				'name' => 'Fotográfico',
+				'code' => 27,
+			],
+			[
+				'name' => 'Fraldas / Geriátricas',
+				'code' => 28,
+			],
+			[
+				'name' => 'Higiene',
+				'code' => 29,
+			],
+			[
+				'name' => 'Impressos',
+				'code' => 30,
+			],
+			[
+				'name' => 'Informática / Computadores',
+				'code' => 31,
+			],
+			[
+				'name' => 'Instrumento Musical',
+				'code' => 32,
+			],
+			[
+				'name' => 'Livro(s)',
+				'code' => 33,
+			],
+			[
+				'name' => 'Materiais Escolares',
+				'code' => 34,
+			],
+			[
+				'name' => 'Materiais Esportivos',
+				'code' => 35,
+			],
+			[
+				'name' => 'Materiais Frágeis',
+				'code' => 36,
+			],
+			[
+				'name' => 'Material de Construção',
+				'code' => 37,
+			],
+			[
+				'name' => 'Material de Irrigação',
+				'code' => 38,
+			],
+			[
+				'name' => 'Material Elétrico / Lâmpada(s)',
+				'code' => 39,
+			],
+			[
+				'name' => 'Material Gráfico',
+				'code' => 40,
+			],
+			[
+				'name' => 'Material Hospitalar',
+				'code' => 41,
+			],
+			[
+				'name' => 'Material Odontológico',
+				'code' => 42,
+			],
+			[
+				'name' => 'Material Pet Shop',
+				'code' => 43,
+			],
+			[
+				'name' => 'Material Veterinário',
+				'code' => 44,
+			],
+			[
+				'name' => 'Móveis montados',
+				'code' => 45,
+			],
+			[
+				'name' => 'Moto Peças',
+				'code' => 46,
+			],
+			[
+				'name' => 'Mudas / Plantas',
+				'code' => 47,
+			],
+			[
+				'name' => 'Papelaria / Documentos',
+				'code' => 48,
+			],
+			[
+				'name' => 'Perfumaria',
+				'code' => 49,
+			],
+			[
+				'name' => 'Material Plástico',
+				'code' => 50,
+			],
+			[
+				'name' => 'Pneus e Borracharia',
+				'code' => 51,
+			],
+			[
+				'name' => 'Produtos Cerâmicos',
+				'code' => 52,
+			],
+			[
+				'name' => 'Produto Químico Não Classificado',
+				'code' => 53,
+			],
+			[
+				'name' => 'Produtos Veterinários',
+				'code' => 54,
+			],
+			[
+				'name' => 'Revistas',
+				'code' => 55,
+			],
+			[
+				'name' => 'Sementes',
+				'code' => 56,
+			],
+			[
+				'name' => 'Suprimentos Agrícolas / Rurais',
+				'code' => 57,
+			],
+			[
+				'name' => 'Têxtil',
+				'code' => 58,
+			],
+			[
+				'name' => 'Vacinas',
+				'code' => 59,
+			],
+			[
+				'name' => 'Vestuário',
+				'code' => 60,
+			],
+			[
+				'name' => 'Vidros / Frágil',
+				'code' => 61,
+			],
+			[
+				'name' => 'Cargas refrigeradas/congeladas',
+				'code' => 62,
+			],
+			[
+				'name' => 'Papelão',
+				'code' => 63,
+			],
+			[
+				'name' => 'Móveis desmontados',
+				'code' => 64,
+			],
+			[
+				'name' => 'Sofá',
+				'code' => 65,
+			],
+			[
+				'name' => 'Colchão',
+				'code' => 66,
+			],
+			[
+				'name' => 'Travesseiro',
+				'code' => 67,
+			],
+			[
+				'name' => 'Móveis com peças de vidro',
+				'code' => 68,
+			],
+			[
+				'name' => 'Acessórios de Airsoft / Paintball',
+				'code' => 69,
+			],
+			[
+				'name' => 'Acessórios de Pesca ',
+				'code' => 70,
+			],
+			[
+				'name' => 'Simulacro de Arma / Airsoft',
+				'code' => 71,
+			],
+			[
+				'name' => 'Arquearia',
+				'code' => 72,
+			],
+			[
+				'name' => 'Acessórios de Arquearia',
+				'code' => 73,
+			],
+			[
+				'name' => 'Alimentos não perecíveis',
+				'code' => 74,
+			],
+			[
+				'name' => 'Caixa de embalagem',
+				'code' => 75,
+			],
+			[
+				'name' => 'TV / Monitores',
+				'code' => 76,
+			],
+			[
+				'name' => 'Linha Branca',
+				'code' => 77,
+			],
+			[
+				'name' => 'Vitaminas / Suplementos nutricionais',
+				'code' => 78,
+			],
+			[
+				'name' => 'Malas / Mochilas',
+				'code' => 79,
+			],
+			[
+				'name' => 'Máquina / Equipamentos',
+				'code' => 80,
+			],
+			[
+				'name' => 'Rações / Alimento para Animal',
+				'code' => 81,
+			],
+			[
+				'name' => 'Artigos para Camping',
+				'code' => 82,
+			],
+			[
+				'name' => 'Pilhas / Baterias',
+				'code' => 83,
+			],
+			[
+				'name' => 'Estiletes / Materiais cortantes',
+				'code' => 84,
+			],
+			[
+				'name' => 'Produto Químico Classificado',
+				'code' => 85,
+			],
+			[
+				'name' => 'Limpeza',
+				'code' => 86,
+			],
+			[
+				'name' => 'Extintores',
+				'code' => 87,
+			],
+			[
+				'name' => 'Equipamentos de segurança / EPI',
+				'code' => 88,
+			],
+			[
+				'name' => 'Outros',
+				'code' => 999,
+			],
+		];
+
+		foreach ($fr_categories as $fr_category) {
+			wp_insert_term($fr_category['name'], 'fr_category', ['description' => $fr_category['code']]);
+		}
+
+		add_option('fr_db_version', $fr_db_version);
+	}
+
+	register_activation_hook(__FILE__, 'fr_install');
+
+	add_action('plugins_loaded', array('WC_Freterapido_Main', 'get_instance'));
 
 endif;

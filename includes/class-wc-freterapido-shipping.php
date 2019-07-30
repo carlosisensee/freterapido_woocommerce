@@ -66,18 +66,24 @@ class WC_Freterapido_Shipping {
 				if ( ! $volume['altura'] ) {
 					$volume['altura'] = $this->default_dimensions['height'];
 				}
-
+				$volume['altura'] = (float) $volume['altura'];
+				
 				if ( ! $volume['largura'] ) {
 					$volume['largura'] = $this->default_dimensions['width'];
 				}
-
+				$volume['largura'] = (float) $volume['largura'];
+				
 				if ( ! $volume['comprimento'] ) {
 					$volume['comprimento'] = $this->default_dimensions['length'];
 				}
-
+				$volume['comprimento'] = (float) $volume['comprimento'];
+				
 				if ( ! $volume['peso'] ) {
 					$volume['peso'] = $this->default_dimensions['weight'] * $volume['quantidade'];
 				}
+				$volume['peso'] = (float) $volume['peso'];
+
+				$volume['tipo'] = (int) $volume['tipo'];
 
 				return $volume;
 			}, $volumes

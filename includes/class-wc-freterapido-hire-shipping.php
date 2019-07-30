@@ -40,7 +40,8 @@ class WC_Freterapido_Hire_Shipping {
 	}
 
 	private function format_request() {
-		$request = array( [ 'numero_pedido' => $this->order_number ] );
+		$request = array();
+		$request['numero_pedido'] = $this->order_number;
 
 		if ( $this->dispatcher ) {
 			$request['expedidor'] = $this->dispatcher;
